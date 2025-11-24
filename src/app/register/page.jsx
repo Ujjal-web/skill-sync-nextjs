@@ -5,6 +5,11 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
 
+// NOTE: You must set the NEXT_PUBLIC_BACKEND_URL environment variable
+// in your Next.js environment (e.g., .env.local) if your backend is not running at localhost:4000.
+// Example: NEXT_PUBLIC_BACKEND_URL=https://api.skillsync.com
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
+
 // Simple SVG for loading spinner (reused from the login page)
 const Spinner = () => (
     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -23,7 +28,6 @@ export default function Register() {
     const [error, setError] = useState("");
     const router = useRouter();
 
-    // Mock Registration Logic
     async function handleRegister(e) {
         e.preventDefault();
         setError("");
@@ -34,10 +38,23 @@ export default function Register() {
             return setError("Passwords do not match.");
         }
 
+        try {
+            // 1. Call the backend registration API
+            const registerRes = await fetch(`${BACKEND_URL}/auth/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password }),
+            });
 
-        const registrationSuccessful = true;
+            if (!registerRes.ok) {
+                // Registration failed (e.g., email already exists, invalid data)
+                const errorData = await registerRes.json();
+                const errorMessage = errorData.message || "Registration failed. Please try again.";
+                setError(errorMessage);
+                return;
+            }
 
-        if (registrationSuccessful) {
+            // 2. Registration successful, attempt automatic login using next-auth credentials provider
             const res = await signIn("credentials", {
                 redirect: false,
                 email,
@@ -51,13 +68,12 @@ export default function Register() {
                 setError("Registration succeeded, but automatic login failed. Please sign in manually.");
                 router.push("/login");
             }
-        } else {
-            // Mocking a registration failure (e.g., email already exists)
-            setError("Registration failed. This email may already be in use.");
+        } catch (e) {
+            console.error("Network or unexpected error during registration:", e);
+            setError("A network error occurred. Please check your backend is running and try again.");
+        } finally {
+            setLoadingCreds(false);
         }
-        // --- END MOCK API CALL ---
-
-        setLoadingCreds(false);
     }
 
     // Google sign-up (reused from login)

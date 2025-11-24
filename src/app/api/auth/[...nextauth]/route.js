@@ -19,8 +19,12 @@ export const authOptions = {
                 });
                 if (!res.ok) return null;
                 const data = await res.json();
-                // data.user contains { id, email, name }
-                return { ...data.user, accessToken: data.accessToken };
+
+                return {
+                    ...data.user,
+                    id: data.user.id,
+                    accessToken: data.accessToken
+                };
             }
         }),
         GoogleProvider({
@@ -63,7 +67,7 @@ export const authOptions = {
                     }
 
                     user.accessToken = data.accessToken;
-                    user.id = data.user?.id;
+                    user.id = data.user?.id; // backend user ID
                     return true;
                 } catch (err) {
                     console.error("signIn callback error:", err);
@@ -74,6 +78,7 @@ export const authOptions = {
         },
 
         async jwt({ token, user }) {
+            // User object is only available on sign-in (Credentials or Google)
             if (user) {
                 if (user.name) token.name = user.name;
                 if (user.email) token.email = user.email;
@@ -86,8 +91,10 @@ export const authOptions = {
         async session({ session, token }) {
             session.user = session.user || {};
 
+            // Transfer data from the token to the session object
             session.user.name = token.name;
             session.user.email = token.email;
+
 
             session.user.id = token.id;
             session.accessToken = token.accessToken;

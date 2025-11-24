@@ -1,11 +1,10 @@
-'use client'; // Required since we use hooks (useState, useEffect, next/navigation, useSession)
+'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { useSession, signOut } from 'next-auth/react'; // <-- Uses useSession and signOut
+import { useSession, signOut } from 'next-auth/react';
 
-// --- Placeholder Components (Reused styling from previous components) ---
 
 const Button = ({ children, variant = 'primary', ...props }) => (
     <button
@@ -17,10 +16,8 @@ const Button = ({ children, variant = 'primary', ...props }) => (
     </button>
 );
 
-// This dropdown now features the 'Add a Skill' and 'Manage My Skills' links.
-// It receives the 'user' object from useSession
+
 const UserDropdown = ({ user, onLogout }) => {
-    // Use fallback values if name/email are still somehow missing, preventing errors
     const name = user?.name || 'User';
     const email = user?.email || 'email not found';
 
@@ -68,7 +65,6 @@ const UserDropdown = ({ user, onLogout }) => {
         </div>
     );
 }
-// --- End Placeholder Components ---
 
 const navItems = [
     { name: 'Home', href: '/' },
@@ -98,7 +94,6 @@ export default function Navbar() {
     };
     // ----------------------------------------------------------------
 
-    // Stickiness Logic
     useEffect(() => {
         const handleScroll = () => {
             setIsSticky(window.scrollY > 50); // Becomes sticky after 50px scroll
