@@ -5,7 +5,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from 'next/link';
 
-// SVG for loading spinner
+// Simple SVG for loading spinner (reused from the login page)
 const Spinner = () => (
     <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -13,46 +13,59 @@ const Spinner = () => (
     </svg>
 );
 
-export default function Login() {
+export default function Register() {
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [loadingCreds, setLoadingCreds] = useState(false);
     const [loadingGoogle, setLoadingGoogle] = useState(false);
     const [error, setError] = useState("");
     const router = useRouter();
 
-    // Credentials sign-in (uses NextAuth credentials provider)
-    async function handleLogin(e) {
+    // Mock Registration Logic
+    async function handleRegister(e) {
         e.preventDefault();
         setError("");
         setLoadingCreds(true);
 
-        // Request NextAuth to sign in.   redirect: false to handle result in the client.
-        const res = await signIn("credentials", {
-            redirect: false,
-            email,
-            password
-        });
+        if (password !== confirmPassword) {
+            setLoadingCreds(false);
+            return setError("Passwords do not match.");
+        }
+
+
+        const registrationSuccessful = true;
+
+        if (registrationSuccessful) {
+            const res = await signIn("credentials", {
+                redirect: false,
+                email,
+                password
+            });
+
+            if (res?.ok) {
+                router.push("/");
+            } else {
+                // If auto-sign-in fails, send them to the login page
+                setError("Registration succeeded, but automatic login failed. Please sign in manually.");
+                router.push("/login");
+            }
+        } else {
+            // Mocking a registration failure (e.g., email already exists)
+            setError("Registration failed. This email may already be in use.");
+        }
+        // --- END MOCK API CALL ---
 
         setLoadingCreds(false);
-
-        if (res?.ok) {
-            // successful sign-in — navigate to desired page
-            router.push("/");
-        } else {
-            // Use a more generic error message for security
-            setError("Invalid email or password. Please try again.");
-        }
     }
 
-    // Google sign-in
+    // Google sign-up (reused from login)
     async function handleGoogleSignIn() {
         setError("");
         setLoadingGoogle(true);
         // This will redirect to Google. CallbackUrl so NextAuth returns here after success.
         await signIn("google", { callbackUrl: "/" });
-        // note: execution will usually not reach here because signIn redirects,
-        // but if it doesn't, stop the loading spinner.
         setLoadingGoogle(false);
     }
 
@@ -61,10 +74,10 @@ export default function Login() {
             <div className="w-full max-w-md bg-white rounded-2xl p-8 shadow-2xl transition duration-300 hover:shadow-3xl border border-gray-100">
                 <div className="text-center">
                     <h1 className="text-3xl font-extrabold text-gray-900">
-                        Welcome to SkillSync
+                        Join SkillSync Today
                     </h1>
                     <p className="mt-2 text-sm text-gray-500 mb-6">
-                        Sign in to connect and share knowledge
+                        Create your account to start sharing and learning
                     </p>
                 </div>
 
@@ -74,7 +87,16 @@ export default function Login() {
                     </div>
                 )}
 
-                <form onSubmit={handleLogin} className="space-y-4">
+                <form onSubmit={handleRegister} className="space-y-4">
+                    <input
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 shadow-sm"
+                        placeholder="Full Name"
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                        disabled={loadingCreds || loadingGoogle}
+                    />
                     <input
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 shadow-sm"
                         placeholder="Email address"
@@ -87,10 +109,21 @@ export default function Login() {
 
                     <input
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 shadow-sm"
-                        placeholder="Password"
+                        placeholder="Password (minimum 6 characters)"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        minLength={6}
+                        required
+                        disabled={loadingCreds || loadingGoogle}
+                    />
+
+                    <input
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150 shadow-sm"
+                        placeholder="Confirm Password"
+                        type="password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                         disabled={loadingCreds || loadingGoogle}
                     />
@@ -101,7 +134,7 @@ export default function Login() {
                         disabled={loadingCreds || loadingGoogle}
                     >
                         {loadingCreds && <Spinner />}
-                        {loadingCreds ? "Signing In..." : "Sign In with Credentials"}
+                        {loadingCreds ? "Registering..." : "Create Account"}
                     </button>
                 </form>
 
@@ -109,31 +142,31 @@ export default function Login() {
                 <div className="flex items-center my-6">
                     <div className="grow border-t border-gray-200"></div>
                     <span className="shrink mx-4 text-sm font-medium text-gray-400">
-                        Or continue with
+                        Or sign up with
                     </span>
                     <div className="grow border-t border-gray-200"></div>
                 </div>
 
-                {/* Google Sign-in Button */}
+                {/* Google Sign-up Button */}
                 <button
                     className="w-full flex items-center justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 disabled:opacity-70 disabled:cursor-not-allowed"
                     onClick={handleGoogleSignIn}
                     disabled={loadingGoogle || loadingCreds}
                 >
-                    {/* Google Icon*/}
+                    {/* Google Icon */}
                     <svg className="h-4 w-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 533.5 544.3">
                         <path fill="#4285F4" d="M533.5 278.4c0-18.9-1.7-37-4.9-54.6H272v103.3h147.1c-6.4 34.7-25.2 64.1-53.6 83.7v69.5h86.6c50.6-46.6 80.4-115.4 80.4-201.9z" />
                         <path fill="#34A853" d="M272 544.3c72.6 0 133.4-24.1 177.9-65.5l-86.6-69.5c-23.9 16-54.4 25.3-91.3 25.3-70 0-129.4-47.2-150.6-110.4H31.1v69.3C75.1 488.5 168.1 544.3 272 544.3z" />
                         <path fill="#FBBC05" d="M121.4 332.1c-6.7-20.3-10.5-41.9-10.5-64 0-22.1 3.8-43.7 10.5-64V134.8H31.1C11.1 179.1 0 227.4 0 278.1s11.1 99 31.1 143.3l90.3-89.3z" />
                         <path fill="#EA4335" d="M272 108.4c39.3 0 74.6 13.4 102.5 39.6l76.8-76.8C405.3 24.1 344.5 0 272 0 168.1 0 75.1 55.8 31.1 134.8l90.3 69.3C142.6 155.6 202 108.4 272 108.4z" />
                     </svg>
-                    {loadingGoogle ? "Opening Google..." : "Sign in with Google"}
+                    {loadingGoogle ? "Opening Google..." : "Sign up with Google"}
                 </button>
 
                 <p className="mt-6 text-sm text-gray-600 text-center">
-                    Don't have an account?{" "}
-                    <Link href="/register" className="font-semibold text-indigo-600 hover:text-indigo-500 transition duration-150">
-                        Register
+                    Already have an account?{" "}
+                    <Link href="/login" className="font-semibold text-indigo-600 hover:text-indigo-500 transition duration-150">
+                        Sign In
                     </Link>
                 </p>
             </div>

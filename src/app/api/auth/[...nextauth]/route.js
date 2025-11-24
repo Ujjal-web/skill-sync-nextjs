@@ -19,6 +19,7 @@ export const authOptions = {
                 });
                 if (!res.ok) return null;
                 const data = await res.json();
+                // data.user contains { id, email, name }
                 return { ...data.user, accessToken: data.accessToken };
             }
         }),
@@ -74,6 +75,8 @@ export const authOptions = {
 
         async jwt({ token, user }) {
             if (user) {
+                if (user.name) token.name = user.name;
+                if (user.email) token.email = user.email;
                 if (user.accessToken) token.accessToken = user.accessToken;
                 if (user.id) token.id = user.id;
             }
@@ -82,6 +85,10 @@ export const authOptions = {
 
         async session({ session, token }) {
             session.user = session.user || {};
+
+            session.user.name = token.name;
+            session.user.email = token.email;
+
             session.user.id = token.id;
             session.accessToken = token.accessToken;
             return session;
