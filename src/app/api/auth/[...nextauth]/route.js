@@ -78,28 +78,29 @@ export const authOptions = {
         },
 
         async jwt({ token, user }) {
-            // User object is only available on sign-in (Credentials or Google)
             if (user) {
-                if (user.name) token.name = user.name;
-                if (user.email) token.email = user.email;
-                if (user.accessToken) token.accessToken = user.accessToken;
-                if (user.id) token.id = user.id;
+                token.name = user.name;
+                token.email = user.email;
+                token.id = user.id;
+                token.accessToken = user.accessToken;
             }
             return token;
         },
 
         async session({ session, token }) {
-            session.user = session.user || {};
 
-            // Transfer data from the token to the session object
-            session.user.name = token.name;
-            session.user.email = token.email;
+            if (!session.user) session.user = {};
 
+            session.user.name = token.name || session.user.name;
+            session.user.email = token.email || session.user.email;
 
             session.user.id = token.id;
+
             session.accessToken = token.accessToken;
+
             return session;
         }
+
     },
     secret: process.env.NEXTAUTH_SECRET
 };
