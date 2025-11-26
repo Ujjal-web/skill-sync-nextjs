@@ -7,19 +7,19 @@ SkillSync is a Next.js application for discovering, offering, and managing oneâ€
 ## Tech Stack
 
 - **Framework:** Next.js (App Router)
-- **Language:** JavaScript (no TypeScript)
+- **Language:** JavaScript
 - **Styling:** Tailwind CSS
 - **Auth:** NextAuth.js
 - **Icons:** lucide-react
 - **Notifications:** react-toastify
 - **Backend API:** External server
-- **Server Side Repository:** https://github.com/Ujjal-web/skill-sync-server
+- **Server Side Repository (created with Express.JS):** https://github.com/Ujjal-web/skill-sync-server
 
 ---
 
 ## Setup & Installation
 
-### 1. Prerequisites
+### Prerequisites
 
 - Node.js
 - npm, Yarn, or pnpm
@@ -30,10 +30,22 @@ SkillSync is a Next.js application for discovering, offering, and managing oneâ€
   - `DELETE /skills/:id` (authenticated)
   - Auth endpoints compatible with NextAuth (or a custom JWT-based setup that provides `session.accessToken`)
 
+  
+
 ---
 
-### 2. Clone the repository
+### Clone the repository and install
 
 ```bash
 git clone https://github.com/Ujjal-web/skill-sync-nextjs.git
 cd skill-sync-nextjs
+
+#Install dependencies
+npm install
+
+#Configure environment variables
+#Create a .env.local file in the project root:
+touch .env.local
+
+#Run the development server
+npm run dev
