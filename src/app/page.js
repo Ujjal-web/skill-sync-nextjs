@@ -107,7 +107,7 @@ export default function Home() {
           </div>
 
           <div className="text-center mt-12">
-            <Link href="/register" passHref>
+            <Link href="/dashboard/add-skill" passHref>
               <button className="inline-flex items-center px-8 py-3 text-lg font-bold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 shadow-xl transition duration-300">
                 Get Started Now
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -145,11 +145,6 @@ export default function Home() {
             ))}
           </div>
         </section>
-
-        {/* Footer */}
-        <footer className="py-10 text-center text-sm text-gray-500 border-t border-gray-100 mt-12">
-          © {new Date().getFullYear()} SkillSync. All rights reserved.
-        </footer>
 
       </main>
     </div>

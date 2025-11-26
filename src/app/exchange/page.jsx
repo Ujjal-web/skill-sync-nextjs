@@ -48,6 +48,14 @@ export default async function AllSkills() {
                             />
                         )} */}
 
+                        {skill.imageUrl && (
+                            <img
+                                src={skill.imageUrl}
+                                alt={skill.title}
+                                className="w-full h-40 object-cover rounded-lg mb-4"
+                            />
+                        )}
+
                         <h2 className="text-xl font-bold text-gray-900">
                             {skill.title}
                         </h2>

@@ -69,8 +69,9 @@ const UserDropdown = ({ user, onLogout }) => {
 const navItems = [
     { name: 'Home', href: '/' },
     { name: 'The Exchange', href: '/exchange' },
-    { name: 'How It Works', href: '#how-it-works' },
-    { name: 'Testimonials', href: '#testimonials' },
+    { name: 'Testimonials', href: '/testimonials' },
+    { name: 'About Us', href: '/about' },
+    { name: 'Contact Us', href: '/contact' },
 ];
 
 /**
