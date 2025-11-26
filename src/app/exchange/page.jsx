@@ -1,65 +1,33 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Link from 'next/link';
+import Image from 'next/image';
 
 const backendUrl = "http://localhost:4000";
 
-const AllSkills = () => {
-    const { data: session } = useSession();
-    const [skills, setSkills] = useState([]);
-    const [loading, setLoading] = useState(true);
 
-    // Fetch Skills
-    const fetchSkills = async () => {
-        if (!session?.accessToken) return;
+async function getSkills() {
+    const res = await fetch(`${backendUrl}/skills`, {
+    });
 
-        try {
-            const res = await fetch(`${backendUrl}/skills`, {
-                headers: {
-                    Authorization: `Bearer ${session.accessToken}`,
-                },
-            });
+    if (!res.ok) {
+        throw new Error('Failed to fetch skills data');
+    }
+    return res.json();
+}
 
-            const data = await res.json();
-            setSkills(data.skills || []);
-            setLoading(false);
-
-        } catch (error) {
-            console.error(error);
-            toast.error("Failed to load skills");
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchSkills();
-    }, [session]);
-
+export default async function AllSkills() {
+    const data = await getSkills();
+    const skills = data.skills || [];
 
     return (
         <div className="min-h-screen bg-gray-50 p-6">
-            <ToastContainer />
-
             <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
                 All Skills
             </h1>
 
-            {/* Loading State */}
-            {loading && (
-                <p className="text-center text-gray-500 text-lg">Loading skills...</p>
-            )}
-
             {/* Empty State */}
-            {!loading && skills.length === 0 && (
+            {skills.length === 0 && (
                 <p className="text-center text-gray-600 text-lg">
                     No skills added yet.
-                    <Link href="/add-skill" className="text-indigo-600 font-semibold">
-                        Add a Skill
-                    </Link>
                 </p>
             )}
 
@@ -70,16 +38,16 @@ const AllSkills = () => {
                         key={skill._id}
                         className="bg-white p-5 rounded-2xl shadow-lg border border-gray-100"
                     >
-                        {/* Image */}
-                        {skill.imageUrl && (
-                            <img
+                        {/* {skill.imageUrl && (
+                            <Image
                                 src={skill.imageUrl}
                                 alt={skill.title}
+                                width={500} // Example width/height for optimization
+                                height={160} // Matches the h-40 object-cover look
                                 className="w-full h-40 object-cover rounded-lg mb-4"
                             />
-                        )}
+                        )} */}
 
-                        {/* Title */}
                         <h2 className="text-xl font-bold text-gray-900">
                             {skill.title}
                         </h2>
@@ -96,23 +64,18 @@ const AllSkills = () => {
                             ${skill.price}
                         </p>
 
-                        {/* ACTION BUTTONS */}
-                        <div className="mt-4 flex gap-2">
+                        {/* VIEW DETAILS BUTTON */}
+                        <div className="mt-4">
                             <Link
-                                href={`/dashboard/manage-skills/${skill._id}`}
-                                className="flex-1 text-center bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-medium"
+                                href={`/exchange/${skill._id}`}
+                                className="block text-center bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-medium"
                             >
-                                View
+                                View Details
                             </Link>
-
-
-
                         </div>
                     </div>
                 ))}
             </div>
         </div>
     );
-};
-
-export default AllSkills;
+}

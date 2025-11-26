@@ -102,7 +102,7 @@ export default function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const baseClasses = `fixed top-0 transition-all duration-300 w-full z-40 ${isSticky ? 'shadow-xl bg-white/95 backdrop-blur-sm border-b border-gray-100 h-14' : 'bg-white h-16'
+    const baseClasses = `transition-all duration-300 w-full z-40 ${isSticky ? 'shadow-xl bg-white/95 backdrop-blur-sm border-b border-gray-100 h-14' : 'bg-white h-16'
         }`;
 
     const linkBaseClasses = 'px-3 py-2 rounded-lg text-sm font-medium transition duration-150';

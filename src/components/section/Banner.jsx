@@ -47,7 +47,7 @@ export default function HeroBanner() {
                     </Link>
 
                     {/* Secondary CTA */}
-                    <Link href="/register" passHref>
+                    <Link href="/dashboard/add-skill" passHref>
                         <button className="inline-flex items-center justify-center px-8 py-3 text-lg font-semibold rounded-xl text-indigo-200 border border-indigo-500 bg-indigo-800/40 hover:bg-indigo-700/50 shadow-md transition duration-300">
                             <TrendingUp className="w-5 h-5 mr-2" />
                             List Your Skills

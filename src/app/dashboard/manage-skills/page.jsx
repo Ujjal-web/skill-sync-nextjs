@@ -80,7 +80,7 @@ const ManageSkills = () => {
             {!loading && skills.length === 0 && (
                 <p className="text-center text-gray-600 text-lg">
                     No skills added yet.
-                    <Link href="/add-skill" className="text-indigo-600 font-semibold">
+                    <Link href="/dashboard/add-skill" className="text-indigo-600 font-semibold">
                         Add a Skill
                     </Link>
                 </p>

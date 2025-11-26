@@ -31,7 +31,7 @@ const AddSkill = () => {
     const [error, setError] = useState("");
     const router = useRouter();
 
-    const categories = ["Programming", "Design", "Marketing", "Soft Skills", "Data Science", "DevOps", "Other"];
+    const categories = ["Programming", "Frontend", "Literature", "Visual Arts", "Business", "Design", "Marketing", "Soft Skills", "Data Science", "DevOps", "Other"];
 
     const handleSubmit = async (e) => {
         e.preventDefault();

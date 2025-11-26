@@ -1,6 +1,7 @@
 import HeroBanner from "@/components/section/Banner";
 import Link from 'next/link';
 import { Zap, Users, Shield, Repeat, StepForward, Aperture, MessageSquare, Briefcase, Code, BookOpen, ArrowRight } from 'lucide-react';
+import SkillPreviewSection from "@/components/section/PreviewSkill";
 
 // --- Data for Sections ---
 
@@ -17,12 +18,6 @@ const stepsData = [
   { step: 4, title: "Start Learning", description: "Connect with your partner via chat and begin your knowledge exchange!" },
 ];
 
-const skillPreviewData = [
-  { icon: Code, title: "Advanced React Hooks", offeredBy: "Alice Johnson", rating: 4.9, tags: ["Frontend", "JavaScript", "WebDev"] },
-  { icon: BookOpen, title: "Creative Writing Workshop", offeredBy: "Ben Smith", rating: 4.7, tags: ["Art", "Literature", "Mentorship"] },
-  { icon: Aperture, title: "Landscape Photography 101", offeredBy: "Clara Lee", rating: 4.8, tags: ["Visual Arts", "Hobby"] },
-  { icon: Briefcase, title: "Pitch Deck Review & Strategy", offeredBy: "David Chen", rating: 5.0, tags: ["Business", "Startup", "Finance"] },
-];
 
 const testimonialData = [
   { quote: "I traded an hour of Spanish lessons for someone reviewing my resume. SkillSync is genius!", author: "Maria K.", role: "Recent Graduate" },
@@ -31,12 +26,9 @@ const testimonialData = [
 ];
 
 
-/**
- * Main application homepage.
- */
 export default function Home() {
   return (
-    <div className="pt-16">
+    <div className="pt-2">
 
       {/* 1. Hero Banner Section */}
       <HeroBanner />
@@ -125,52 +117,7 @@ export default function Home() {
         </section>
 
         {/* 4. Skill Exchange Preview Section */}
-        <section className="py-20">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-              Hot Skills on the Exchange
-            </h2>
-            <p className="mt-4 text-xl text-gray-600">
-              A sample of the exciting learning opportunities available right now.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {skillPreviewData.map((skill, index) => (
-              <div
-                key={index}
-                className="p-6 bg-white rounded-xl shadow-lg border border-gray-100 flex flex-col justify-between 
-                           transform hover:shadow-2xl hover:-translate-y-1 transition duration-300 cursor-pointer group"
-              >
-                <div>
-                  <skill.icon className="w-8 h-8 text-indigo-500 mb-3" />
-                  <h3 className="text-lg font-bold text-gray-900 mb-1 line-clamp-2">{skill.title}</h3>
-                  <p className="text-sm text-gray-500 mb-4">Offered by {skill.offeredBy}</p>
-                </div>
-
-                {/* Footer and Rating */}
-                <div className="border-t border-gray-100 pt-3 flex items-center justify-between">
-                  <div className="flex items-center text-yellow-500 text-sm font-semibold">
-                    {/* Star icon */}
-                    <svg className="w-4 h-4 mr-1 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 15l-5.878 3.09 1.123-6.545L.487 7.575l6.561-.955L10 1l2.952 5.62 6.561.955-4.758 4.66.123 6.545z" /></svg>
-                    {skill.rating}
-                  </div>
-                  <span className="text-xs font-medium text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full group-hover:bg-indigo-100 transition">
-                    {skill.tags[0]}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link href="/exchange" passHref>
-              <button className="inline-flex items-center px-8 py-3 text-lg font-semibold rounded-xl text-indigo-600 border border-indigo-600 bg-white hover:bg-indigo-50 shadow-md transition duration-300">
-                Browse All Skills
-              </button>
-            </Link>
-          </div>
-        </section>
+        <SkillPreviewSection />
 
         {/* 5. Community Testimonials Section*/}
         <section id="testimonials" className="py-20 bg-gray-50 rounded-2xl mb-12">
