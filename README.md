@@ -2,6 +2,9 @@
 
 SkillSync is a Next.js application for discovering, offering, and managing one‑to‑one skill sessions. Learners can browse skills across categories (Programming, Design, Business, etc.), and experts can list and manage the skills they offer. Authentication is handled with NextAuth, and skill data is fetched from a separate backend API.
 
+# Live Link
+https://skill-sync-next.vercel.app
+
 ---
 
 ## Tech Stack

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-const backendUrl = "http://localhost:4000";
+const backendUrl = "https://skill-sync-server-delta.vercel.app";
 
 
 async function getSkills() {

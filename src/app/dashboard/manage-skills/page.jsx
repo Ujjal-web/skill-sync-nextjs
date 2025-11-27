@@ -2,7 +2,7 @@ import ManageSkillsClient from "./ManageSkillsClient";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-const backendUrl = "http://localhost:4000";
+const backendUrl = "https://skill-sync-server-delta.vercel.app";
 
 async function getMySkillsAndError(accessToken) {
     if (!accessToken) return { skills: [], error: false };

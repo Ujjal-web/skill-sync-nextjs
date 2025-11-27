@@ -8,8 +8,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSession } from "next-auth/react";
 
-const API_BASE_URL = 'http://localhost:4000';
-const backendUrl = 'http://localhost:4000';
+const API_BASE_URL = 'https://skill-sync-server-delta.vercel.app';
+const backendUrl = 'https://skill-sync-server-delta.vercel.app';
 
 // Simple SVG spinner
 const Spinner = () => (

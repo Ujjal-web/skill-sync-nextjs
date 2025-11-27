@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const backendUrl = "http://localhost:4000";
+const backendUrl = "https://skill-sync-server-delta.vercel.app";
 
 const ManageSkillsClient = ({ initialSkills, accessToken, initialError }) => {
     const [skills, setSkills] = useState(initialSkills || []);

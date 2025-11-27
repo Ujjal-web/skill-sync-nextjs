@@ -14,7 +14,7 @@ import {
     CircleHelp,
 } from 'lucide-react';
 
-const backendUrl = "http://localhost:4000";
+const backendUrl = "https://skill-sync-server-delta.vercel.app";
 
 async function getSkills() {
     const res = await fetch(`${backendUrl}/skills`);

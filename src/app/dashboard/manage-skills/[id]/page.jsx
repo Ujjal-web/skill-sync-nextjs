@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
-const backendUrl = "http://localhost:4000";
+const backendUrl = "https://skill-sync-server-delta.vercel.app";
 
 export default function SkillDetails() {
     const { id } = useParams();

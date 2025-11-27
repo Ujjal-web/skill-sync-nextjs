@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
 const backendUrl =
-    process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
+    process.env.BACKEND_URL || process.env.NEXT_PUBLIC_BACKEND_URL || "https://skill-sync-server-delta.vercel.app";
 
 export const authOptions = {
     providers: [

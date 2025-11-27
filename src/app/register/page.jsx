@@ -8,7 +8,7 @@ import Link from 'next/link';
 // NOTE: You must set the NEXT_PUBLIC_BACKEND_URL environment variable
 // in your Next.js environment (e.g., .env.local) if your backend is not running at localhost:4000.
 // Example: NEXT_PUBLIC_BACKEND_URL=https://api.skillsync.com
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://skill-sync-server-delta.vercel.app';
 
 // Simple SVG for loading spinner (reused from the login page)
 const Spinner = () => (
